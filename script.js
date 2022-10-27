@@ -1,19 +1,11 @@
-const rock = "Rock";
-const paper = "Paper";
-const scissors = "Scissors";
-const noChoice = "You didn't pick one!";
-
-function getComputerChoice() {
-  let randomNumber = Math.random() * 100;
-  if (randomNumber <= 33.3) {
-    return rock;
-  } else if (randomNumber <= 66.6) {
-    return paper;
-  } else return scissors;
-}
-
-let choice = prompt("Rock, Paper, or Scissors?", "");
 function game() {
+  const rock = "Rock";
+  const paper = "Paper";
+  const scissors = "Scissors";
+  const noChoice = "Nothing!";
+
+  let choice = prompt("Rock, Paper, or Scissors?", "");
+
   function getPlayerChoice() {
     let myChoice = choice.toLowerCase();
     if (myChoice === "rock") {
@@ -24,16 +16,23 @@ function game() {
       return scissors;
     } else return noChoice;
   }
+
+  function getComputerChoice() {
+    let randomNumber = Math.random() * 100;
+    if (randomNumber <= 33.3) {
+      return rock;
+    } else if (randomNumber <= 66.6) {
+      return paper;
+    } else return scissors;
+  }
   const playerSelection = getPlayerChoice();
   const computerSelection = getComputerChoice();
-  const tie = `You tie! ${playerSelection} matches ${computerSelection}!`;
-  const win = `You win! ${playerSelection} beats ${computerSelection}!`;
-  const lose = `You lose! ${playerSelection} is defeated by ${computerSelection}!`;
+  const tie = `${playerSelection} matches ${computerSelection}! You tie!`;
+  const win = `${playerSelection} beats ${computerSelection}! You win!`;
+  const lose = `${playerSelection} is defeated by ${computerSelection}! You lose!`;
+  const noChoiceLose = `You chose ${playerSelection}! You lose!`;
 
-  function playRound(playerSelection, computerSelection) {
-    /* let tie = `You tie! ${playerSelection} matches ${computerSelection}!`;
-    let win = `You win! ${playerSelection} beats ${computerSelection}!`;
-    let lose = `You lose! ${playerSelection} is defeated by ${computerSelection}!`; */
+  function playRound() {
     if (playerSelection === rock && computerSelection === rock) {
       return tie;
     } else if (playerSelection === paper && computerSelection === paper) {
@@ -52,41 +51,35 @@ function game() {
       return lose;
     } else if (playerSelection === scissors && computerSelection === paper) {
       return win;
-    } else return noChoice;
+    } else return noChoiceLose;
   }
-  if (playRound(playerSelection, computerSelection) === tie) {
-    result = tie;
-  } else if (playRound(playerSelection, computerSelection) === win) {
-    result = win;
-  } else if (playRound(playerSelection, computerSelection) === lose) {
-    result = lose;
-  } else result = noChoice;
-  console.log(playerSelection);
-  console.log(computerSelection);
-}
-/* if (playRound(playerSelection, computerSelection) === tie) {
-  result = tie;
-} else if (playRound(playerSelection, computerSelection) === win) {
-  result = win;
-} else if (playRound(playerSelection, computerSelection) === lose) {
-  result = lose;
-} else result = noChoice; */
 
-for (let i = 0; i < 5; i++) {
-  tie = 1;
-  win = 1;
-  lose = 1;
-  if (win + tie + lose === 5) {
-    break;
-  }
+  if (playRound(playerSelection, computerSelection) === win) {
+    playerScore++;
+  } else if (playRound(playerSelection, computerSelection) === lose) {
+    computerScore++;
+  } else if (playRound(playerSelection, computerSelection) === noChoiceLose) {
+    computerScore++;
+  } else;
+
+  console.log(`You chose ${playerSelection}!`); //shows my selection
+  console.log(`The computer chose ${computerSelection}!`); //shows the computer's selection
+  console.log(playRound(playerSelection, computerSelection)); //shows the result of round
+  console.log(`Your score is ${playerScore}!`);
+  console.log(`The computer's score is ${computerScore}!`);
 }
-console.log(game());
-// console.log(playerSelection);
-// console.log(computerSelection);
-// console.log(game);
-// console.log(playRound(playerSelection, computerSelection));
-console.log(result);
-alert(result);
-//Why does the playRound alert not work unless console.log is here? Is it because the playRound() calls both items?
-//alert(playRound(playerSelection, computerSelection));
-// let gameResult = alert(playRound(playerSelection, computerSelection));
+let playerScore = 0;
+let computerScore = 0;
+for (let i = 0; i < 5; i++) {
+  game(); //repeats the game five times
+  console.log(`Round ${i + 1}`); //shows the number of each round, starting from 0
+}
+if (playerScore > computerScore) {
+  alert(`You win by a score of ${playerScore} to ${computerScore}!`);
+}
+if (playerScore < computerScore) {
+  alert(`You lose by a score of ${computerScore} to ${playerScore}!`);
+}
+if (playerScore === computerScore) {
+  alert(`You tie by a score of ${computerScore} to ${playerScore}!`);
+}
