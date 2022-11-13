@@ -1,22 +1,41 @@
-function game() {
-  const rock = "Rock";
-  const paper = "Paper";
-  const scissors = "Scissors";
-  const noChoice = "Nothing!";
+const rock = "Rock";
+const paper = "Paper";
+const scissors = "Scissors";
+const rockBtn = document.querySelector(".rock-button");
+const paperBtn = document.querySelector(".paper-button");
+const scissorsBtn = document.querySelector(".scissors-button");
+const rockImg = document.querySelector(".rock-image");
+const paperImg = document.querySelector(".paper-image");
+const scissorsImg = document.querySelector(".scissors-image");
+const buttons = document.querySelector("button");
+//
+let playerSelection;
+let playerScore = 0;
+let computerScore = 0;
+//
+rockBtn.addEventListener("click", (e) => {
+  const audio = document.querySelector(".destroy");
+  audio.currentTime = 0;
+  audio.play();
+  playerSelection = rock;
+  playRound();
+});
+paperBtn.addEventListener("click", (e) => {
+  const audio = document.querySelector(".crumpling");
+  audio.currentTime = 0;
+  audio.play();
+  playerSelection = paper;
+  playRound();
+});
+scissorsBtn.addEventListener("click", (e) => {
+  const audio = document.querySelector(".snip");
+  audio.currentTime = 0;
+  audio.play();
+  playerSelection = scissors;
+  playRound();
+});
 
-  let choice = prompt("Rock, Paper, or Scissors?", "");
-
-  function getPlayerChoice() {
-    let myChoice = choice.toLowerCase();
-    if (myChoice === "rock") {
-      return rock;
-    } else if (myChoice === "paper") {
-      return paper;
-    } else if (myChoice === "scissors") {
-      return scissors;
-    } else return noChoice;
-  }
-
+function playRound() {
   function getComputerChoice() {
     let randomNumber = Math.random() * 100;
     if (randomNumber <= 33.3) {
@@ -25,14 +44,12 @@ function game() {
       return paper;
     } else return scissors;
   }
-  const playerSelection = getPlayerChoice();
   const computerSelection = getComputerChoice();
-  const tie = `${playerSelection} matches ${computerSelection}! You tie!`;
-  const win = `${playerSelection} beats ${computerSelection}! You win!`;
-  const lose = `${playerSelection} is defeated by ${computerSelection}! You lose!`;
-  const noChoiceLose = `You chose ${playerSelection}! You lose!`;
+  const tie = "You tie this round!";
+  const win = "You win this round!";
+  const lose = "You lose this round!";
 
-  function playRound() {
+  function listResult() {
     if (playerSelection === rock && computerSelection === rock) {
       return tie;
     } else if (playerSelection === paper && computerSelection === paper) {
@@ -51,35 +68,46 @@ function game() {
       return lose;
     } else if (playerSelection === scissors && computerSelection === paper) {
       return win;
-    } else return noChoiceLose;
+    }
   }
+  const scoreboard = document.querySelector(".scoreboard");
+  const mySide = document.querySelector(".my-side");
+  const center = document.querySelector(".center");
+  const compSide = document.querySelector(".comp-side");
+  const myText = document.querySelector(".my-text");
+  const div = document.createElement("div");
+  //it would be cool to put win, tie, or lose variables between the two texts (on the scoreboard) between each round
+  const compText = document.querySelector(".comp-text");
+  const myScore = document.querySelector(".my-score");
+  const compScore = document.querySelector(".comp-score");
+  const roundResult = listResult();
 
-  if (playRound(playerSelection, computerSelection) === win) {
+  if (roundResult === win) {
     playerScore++;
-  } else if (playRound(playerSelection, computerSelection) === lose) {
+    myScore.textContent = playerScore;
+    mySide.appendChild(myScore);
+  } else if (roundResult === lose) {
     computerScore++;
-  } else if (playRound(playerSelection, computerSelection) === noChoiceLose) {
-    computerScore++;
-  } else;
-
-  console.log(`You chose ${playerSelection}!`); //shows my selection
-  console.log(`The computer chose ${computerSelection}!`); //shows the computer's selection
-  console.log(playRound(playerSelection, computerSelection)); //shows the result of round
-  console.log(`Your score is ${playerScore}!`);
-  console.log(`The computer's score is ${computerScore}!`);
+    compScore.textContent = computerScore;
+    compSide.appendChild(compScore);
+  }
+  myText.textContent = `You chose ${playerSelection}!`;
+  center.appendChild(myText);
+  compText.textContent = `The computer chose ${computerSelection}!`;
+  center.appendChild(compText);
+  function finalScore() {
+    if (playerScore === 5) {
+      center.removeChild(myText);
+      center.removeChild(compText);
+      div.textContent = "You win!";
+      center.appendChild(div);
+    } else if (computerScore === 5) {
+      center.removeChild(myText);
+      center.removeChild(compText);
+      div.textContent = "You lose!";
+      center.appendChild(div);
+    }
+  }
+  finalScore();
 }
-let playerScore = 0;
-let computerScore = 0;
-for (let i = 0; i < 5; i++) {
-  game(); //repeats the game five times
-  console.log(`Round ${i + 1}`); //shows the number of each round, starting from 0
-}
-if (playerScore > computerScore) {
-  alert(`You win by a score of ${playerScore} to ${computerScore}!`);
-}
-if (playerScore < computerScore) {
-  alert(`You lose by a score of ${computerScore} to ${playerScore}!`);
-}
-if (playerScore === computerScore) {
-  alert(`You tie by a score of ${computerScore} to ${playerScore}!`);
-}
+//after acknowleding the final score, I want the game to reset to the beginning without having to manually refresh the page. Maybe a button pops up after someone scores 5. and you cant do anything on the page until the button is pressed.

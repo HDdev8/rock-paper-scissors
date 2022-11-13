@@ -4,8 +4,46 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
     <title>Rock Paper Scissors</title>
-    <script src="./script.js"></script>
   </head>
-  <body></body>
+  <body>
+    <h1>Rock Paper Scissors!</h1>
+    <div class="scoreboard">
+      <div class="my-side">
+        <h3>Your score</h3>
+        <div class="my-score">0</div>
+      </div>
+      <div class="center">
+        <div class="my-text"></div>
+        <div class="comp-text"></div>
+      </div>
+      <div class="comp-side">
+        <h3>Their score</h3>
+        <div class="comp-score">0</div>
+      </div>
+    </div>
+    <div class="button-container">
+      <div class="rock-container">
+        <button class="rock-button">
+          <img src="./images/rock.png" class="rock-image" />
+        </button>
+      </div>
+      <div class="paper-container">
+        <button class="paper-button">
+          <img src="./images/paper.png" class="paper-image" />
+        </button>
+      </div>
+      <div class="scissors-container">
+        <button class="scissors-button">
+          <img src="./images/scissors.png" class="scissors-image" />
+        </button>
+      </div>
+    </div>
+    <audio src="./audio/crumbling-paper.mp3" class="crumpling"></audio>
+    <audio src="./audio/rock-destroy.mp3" class="destroy"></audio>
+    <audio src="./audio/snip-with-scissor.mp3" class="snip"></audio>
+    <audio src="./audio/suspense.m4a" class="suspense"></audio>
+    <script src="./script.js"></script>
+  </body>
 </html>
